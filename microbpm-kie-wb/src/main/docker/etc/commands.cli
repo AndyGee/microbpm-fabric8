@@ -1,0 +1,10 @@
+
+# Security Modules
+# add kie login module to forward jbpm-console to kie execution server e.g. query process definitions
+# see http://mswiderski.blogspot.de/2016/07/jbpm-v7-workbench-and-kie-server.html and JBPM-5109
+
+/subsystem=security/security-domain=other/authentication=classic/login-module=org.kie.security.jaas.KieLoginModule:\
+    add( \
+        code=org.kie.security.jaas.KieLoginModule, \
+        flag=optional, \
+        module=deployment.jbpm-console.war)

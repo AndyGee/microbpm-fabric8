@@ -1,0 +1,39 @@
+
+metadata:
+  name:  ${service.name}
+  annotations:
+    fabric8.io/iconUrl: >-
+      ${icon}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: ${project.artifactId}
+        version: ${project.version}
+      annotations:
+        fabric8.io/iconUrl: >-
+          {icon}
+    spec:
+      containers:
+      - env:
+        - name: KIE_SERVER_CONTROLLER
+          value: http://jbpm-console:8080/jbpm-console/rest/controller
+        - name: KIE_MAVEN_REPO
+          value: http://jbpm-console:8080/jbpm-console/maven2
+        - name: KIE_MAVEN_REPO_USER
+          value: admin
+        - name: KIE_MAVEN_REPO_PASSWORD
+          value: admin
+        - name: KIE_SERVER_PORT
+          value: ${http.port}
+        - name: KIE_SERVER_ID
+          value: kie-example
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        name: ${service.name}
+        ports:
+        - containerPort: ${http.port}
+          name: http

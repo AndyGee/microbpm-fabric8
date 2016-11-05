@@ -1,0 +1,9 @@
+
+metadata:
+  name: ${service.name}-debug
+  labels:
+    expose: true
+spec:
+  ports:
+  - port: 8787
+    name: debug

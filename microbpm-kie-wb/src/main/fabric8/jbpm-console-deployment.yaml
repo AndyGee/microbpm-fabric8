@@ -1,0 +1,32 @@
+
+metadata:
+  name:  ${service.name}
+  annotations:
+    fabric8.io/iconUrl: >-
+      ${icon}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: ${project.artifactId}
+        version: ${project.version}
+      annotations:
+        fabric8.io/iconUrl: >-
+          {icon}
+    spec:
+      volumes:
+        - name: kie-data
+          hostPath:
+            #hostmount /data/kie requires write permissions for the docker user
+            path: /data/kie
+      containers:
+        - env:
+          - name: KIE_WB_DATA
+            value: /opt/kie
+          name: ${service.name}
+          ports:
+          - containerPort: ${http.port}
+          volumeMounts:
+            - mountPath: /opt/kie
+              name: kie-data

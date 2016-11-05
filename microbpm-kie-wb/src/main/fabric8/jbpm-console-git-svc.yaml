@@ -1,0 +1,11 @@
+
+metadata:
+  name: ${service.name}-git
+  labels:
+    expose: true
+spec:
+  ports:
+  - port: 9418
+    name: git
+  #  readonly
+

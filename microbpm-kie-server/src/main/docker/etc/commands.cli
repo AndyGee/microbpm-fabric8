@@ -1,0 +1,25 @@
+
+# Persistence with MYSQL
+/system-property=org.kie.server.persistence.ds:add(value=jboss/datasources/jbpmDS)
+/system-property=org.kie.server.persistence.dialect:add(value=org.hibernate.dialect.MySQL5Dialect)
+
+module add --name=org.mysql --resources=mysql-connector-java.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=org.mysql,driver-name=mysql,driver-class-name=com.mysql.jdbc.Driver)
+
+data-source add --jndi-name=java:jboss/datasources/jbpmDS --name=jbpmDS --connection-url=jdbc:mysql://jbpm-db:3306/jbpm?createDatabaseIfNotExist=true --driver-name=mysql --user-name=root --password=root
+
+
+# Add CORS Header / Cross-Origin Resource Sharing
+
+# filter references
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=Access-Control-Allow-Origin:add
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=Access-Control-Allow-Methods:add
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=Access-Control-Allow-Headers:add
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=Access-Control-Allow-Credentials:add
+
+# filter
+/subsystem=undertow/configuration=filter/response-header=Access-Control-Allow-Origin:add(header-name=Access-Control-Allow-Origin,header-value="*")
+/subsystem=undertow/configuration=filter/response-header=Access-Control-Allow-Methods:add(header-name=Access-Control-Allow-Methods,header-value="GET, PUT, POST, OPTIONS, DELETE")
+/subsystem=undertow/configuration=filter/response-header=Access-Control-Allow-Headers:add \
+(header-name=Access-Control-Allow-Headers,header-value="accept, authorization, content-type, x-requested-with, X-KIE-ContentType")
+/subsystem=undertow/configuration=filter/response-header=Access-Control-Allow-Credentials:add(header-name=Access-Control-Allow-Credentials,header-value="true")

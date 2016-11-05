@@ -1,0 +1,29 @@
+metadata:
+  name:  ${service.name}
+  annotations:
+    fabric8.io/iconUrl: >-
+      ${icon}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: ${project.artifactId}
+        version: ${project.version}
+      annotations:
+        fabric8.io/iconUrl: >-
+          {icon}
+    spec:
+      containers:
+      - name: ${project.artifactId}
+        env:
+        - name: "MYSQL_USER"
+          value: "mysql"
+        - name: "MYSQL_PASSWORD"
+          value: "mysql"
+        - name: "MYSQL_DATABASE"
+          value: "sample"
+        - name: "MYSQL_ROOT_PASSWORD"
+          value: "root"
+        ports:
+        - containerPort: 3306

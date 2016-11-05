@@ -1,0 +1,11 @@
+
+metadata:
+  name: ${service.name}-gitssh
+  labels:
+    expose: true
+spec:
+  type: NodePort
+  ports:
+  - port: 8001
+    nodePort: 31022
+    name: ssh
